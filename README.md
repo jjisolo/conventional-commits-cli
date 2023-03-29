@@ -23,3 +23,8 @@ $ ccommit [-a|-A|..filenames]
 
 Optionally you can alias the ```ccommit``` to ``cc`` in your shell
 
+# Todo
+
+[] Do not commnit when the process shut downs(for instance <C-c> is pressed by the user)
+[] Better git output(some colors maybe)
+[] Handle more git options
