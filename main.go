@@ -4,7 +4,7 @@ import(
   "fmt"
   "os"
 
-  "github.com/jjisolo/src/cli"
+  "github.com/jjisolo/cli"
 )
 
 func main() {
