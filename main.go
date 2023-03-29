@@ -14,6 +14,7 @@ import(
 
 var helpMessage   = flag.Bool("help", false, "Show help message")
 var stageAll      = flag.Bool("a", false, "Stage all commits")
+var ammend        = flag.Bool("A", false, "Ammend commit")
 
 var commitMessage string
 
@@ -118,9 +119,14 @@ func executeCommitMessage() {
   } else {
     path = strings.Join(os.Args[1:], " ")
   }
+
+  if *ammend {
+    command += "-A "
+  }
+
   command += "-m \"" + commitMessage + "\""
   fmt.Printf("\n\n Executing: < git commit %s >\n\n", command)
- // test commentary
+
   var stdout bytes.Buffer
   var stderr bytes.Buffer
   cmd := exec.Command("git", "commit", path, command)
@@ -132,7 +138,7 @@ func executeCommitMessage() {
   }
 
   fmt.Println(stdout.String())
-
+  
 }
 
 func main() {
