@@ -1,4 +1,4 @@
-module github.com/jjisolo/main
+module github.com/jjisolo/ccommit
 
 go 1.20
 

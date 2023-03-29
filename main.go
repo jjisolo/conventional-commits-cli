@@ -115,7 +115,7 @@ func executeCommitMessage() {
   command := ""
   path := ""
   if *stageAll {
-    path = ""
+    path = "."
   } else {
     path = strings.Join(os.Args[1:], " ")
   }
