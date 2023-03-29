@@ -112,18 +112,18 @@ func constructCommitMessage() {
 
 func executeCommitMessage() {
   command := ""
-
+  path := ""
   if *stageAll {
-    command += ""
+    path = ""
   } else {
-    command += strings.Join(os.Args[1:], " ")
+    path = strings.Join(os.Args[1:], " ")
   }
   command += "-m \"" + commitMessage + "\""
   fmt.Printf("\n\n Executing: < git commit %s >\n\n", command)
-
+ // test commentary
   var stdout bytes.Buffer
   var stderr bytes.Buffer
-  cmd := exec.Command("git", "commit", command)
+  cmd := exec.Command("git", "commit", path, command)
   cmd.Stdout = &stdout
   cmd.Stderr = &stderr
   err := cmd.Run()
