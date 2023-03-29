@@ -8,6 +8,8 @@ import(
   "fmt"
   "os"
   "os/exec"
+
+  "github.com/manifoldco/promptui"
 )
 
 var helpMessage   = flag.Bool("help", false, "Show help message")
@@ -34,45 +36,78 @@ func stringInSlice(a string, list []string) bool {
 }
 
 func constructCommitMessage() {
-  possibleCommitTypes := []string{"feat", "fix", "docs", "style", "refactor", "perf"}
-  reader := bufio.NewReader(os.Stdin)
-  
-  fmt.Printf("Select the type if change that you're commiting [%s]: ", strings.Join(possibleCommitTypes[:], "/"))
-  input := strings.ToLower(strings.TrimSuffix(getString(reader), "\n"))
-  if stringInSlice(input, possibleCommitTypes) {
- 	  commitMessage += input
-  } else {
-    fmt.Println("This type is not conventional!")
-    os.Exit(1)
-  }
+  prompt := promptui.Select{
+		Label: "Select the type if change that you're commiting",
+		Items: []string{"feat", "fix", "docs", "style", "refactor", "perf"},
+	}
 
-  fmt.Print("\nSelect the scope of this change: ")
-  input = strings.ToLower(strings.TrimSuffix(getString(reader), "\n"))
-  if len(input) == 0 {
+	_, result, err := prompt.Run()
+	if err != nil {
+		fmt.Printf("Prompt failed %v\n", err)
+		return
+	}
+  commitMessage += result
+ 
+  promptValidate := promptui.Prompt{
+		Label:    "Select the scope of this change",
+		Validate: nil,
+	}
+
+	result, err = promptValidate.Run()
+	if err != nil {
+		fmt.Printf("Prompt failed %v\n", err)
+		return
+	}
+
+  if len(result) == 0 {
     commitMessage += ":"
   } else {
-    commitMessage += "(" + strings.TrimSuffix(input, "\n") + "):"
+    commitMessage += "(" + result + "):"
   }
 
-  fmt.Print("\nWrite a short imperative description of the change: ")
-  input = strings.TrimSuffix(getString(reader), "\n")
-  if len(input) != 0 {
-    commitMessage += " " + input
+  promptValidate = promptui.Prompt{
+		Label:    "Write a short imperative description of the change",
+		Validate: nil,
+	}
+
+	result, err = promptValidate.Run()
+	if err != nil {
+		fmt.Printf("Prompt failed %v\n", err)
+		return
+	}
+
+  if len(result) == 0 {
+    commitMessage += "No commit message :("
   } else {
-    commitMessage += " No commit message :("
+    commitMessage += "result"
   }
 
-  fmt.Print("\nProvide a longer description of the change: ")
-  input = strings.TrimSuffix(getString(reader), "\n")
-  if len(input) != 0 {
-    commitMessage += "\n" + input
-  }
- 
-  fmt.Print("\nList any breaking changes or issues closed by this change: ")
-  input = strings.TrimSuffix(getString(reader), "\n")
-  if len(input) != 0 {
-    commitMessage += "\n" + input
-  }
+
+  promptValidate = promptui.Prompt{
+		Label:    "Provide a longer description of the change",
+		Validate: nil,
+	}
+
+	result, err = promptValidate.Run()
+	if err != nil {
+		fmt.Printf("Prompt failed %v\n", err)
+		return
+	}
+
+  commitMessage += result
+
+  promptValidate = promptui.Prompt{
+		Label:    "List any breaking changes or issues closed by this change",
+		Validate: nil,
+	}
+
+	result, err = promptValidate.Run()
+	if err != nil {
+		fmt.Printf("Prompt failed %v\n", err)
+		return
+	}
+
+  commitMessage += result
 }
 
 func executeCommitMessage() {
@@ -83,6 +118,7 @@ func executeCommitMessage() {
     command += strings.Join(os.Args[2:], " ")
   }
   command += "-m \"" + commitMessage + "\""
+  fmt.Printf("\n\n Executing < git commit \"%s\" >", commitMessage)
 
   var stdout bytes.Buffer
   var stderr bytes.Buffer
