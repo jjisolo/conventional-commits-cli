@@ -77,9 +77,9 @@ func constructCommitMessage() {
 	}
 
   if len(result) == 0 {
-    commitMessage += "No commit message :("
+    commitMessage += " No commit message :("
   } else {
-    commitMessage += "result"
+    commitMessage += result
   }
 
 
@@ -112,13 +112,14 @@ func constructCommitMessage() {
 
 func executeCommitMessage() {
   command := ""
-  if !*stageAll {
-    command += "-a"
+
+  if *stageAll {
+    command += ""
   } else {
-    command += strings.Join(os.Args[2:], " ")
+    command += strings.Join(os.Args[1:], " ")
   }
   command += "-m \"" + commitMessage + "\""
-  fmt.Printf("\n\n Executing < git commit \"%s\" >", commitMessage)
+  fmt.Printf("\n\n Executing: < git commit %s >\n\n", command)
 
   var stdout bytes.Buffer
   var stderr bytes.Buffer
