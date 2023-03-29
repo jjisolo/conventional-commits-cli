@@ -13,7 +13,7 @@ $ git clone https://github.com/jjisolo/conventional-commits-cli
 Then run the build and installation
 ```
 $ cd conventional-commits-cli
-$ go build.
+$ go build .
 $ go install
 ```
 Now the program can be called via
