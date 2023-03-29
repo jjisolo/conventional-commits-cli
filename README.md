@@ -1,4 +1,4 @@
-# Conventional commit CLI tool written in go
+# Conventional commit CLI tool written in Go
 I did not find any CLI interface for making conventional commits, so i decided to create my own. Please enjoy :)
 
 ![application screenshot](https://github.com/jjisolo/conventional-commits-cli/blob/main/screenshot.png)
