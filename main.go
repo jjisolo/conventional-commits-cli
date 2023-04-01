@@ -109,6 +109,7 @@ func constructCommitMessage() {
 	}
 
   commitMessage += result
+  executeCommitMessage()
 }
 
 func executeCommitMessage() {
@@ -138,7 +139,6 @@ func executeCommitMessage() {
   }
 
   fmt.Println(stdout.String())
-  
 }
 
 func main() {
@@ -150,5 +150,4 @@ func main() {
   }
 
   constructCommitMessage()
-  executeCommitMessage()
 }
