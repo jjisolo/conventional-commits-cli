@@ -80,7 +80,7 @@ func constructCommitMessage() {
   if len(result) == 0 {
     commitMessage += " No commit message :("
   } else {
-    commitMessage += result
+    commitMessage += " " + result
   }
 
 
