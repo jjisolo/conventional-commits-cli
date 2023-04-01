@@ -148,6 +148,11 @@ func main() {
     flag.Usage()
     os.Exit(1)
   }
+  
+  if !*stageAll && !*ammend && len(os.Args) < 2 {
+    fmt.Println("No flags or files where provided!")
+    return
+  }
 
   constructCommitMessage()
 }
