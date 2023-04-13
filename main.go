@@ -12,6 +12,10 @@ import(
   "github.com/manifoldco/promptui"
 )
 
+type ScopeCache struct {
+  name string 
+}
+
 var helpMessage   = flag.Bool("help", false, "Show help message")
 var stageAll      = flag.Bool("a", false, "Stage all commits")
 var ammend        = flag.Bool("A", false, "Ammend commit")
@@ -61,9 +65,9 @@ func constructCommitMessage() {
 	}
 
   if len(result) == 0 {
-    commitMessage += ":"
+    commitMessage += ": "
   } else {
-    commitMessage += "(" + result + "):"
+    commitMessage += "(" + result + "): "
   }
 
   promptValidate = promptui.Prompt{
